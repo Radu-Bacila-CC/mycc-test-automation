@@ -1,10 +1,13 @@
 package base;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
@@ -24,6 +27,7 @@ public class BaseTest {
 	private WebDriver driver;
 	protected Dashboard dashboard;
 	protected LoginPage loginPage;
+	private By dashboardText=By.xpath("/html//div[@id='kt_content']//h3[.=' Dashboard ']");
 
 	@BeforeMethod(alwaysRun = true)
 	@Parameters({ "driverPath", "browser", "url" })
@@ -60,15 +64,23 @@ public class BaseTest {
 		driver.manage().window().maximize();
 		if (driver.getCurrentUrl().equals("https://mycc-staging.n13.ro/login"))
 		{
+		Reporter.log("Starting login process with credentials: ");
+		WebDriverWait wait=new WebDriverWait(driver, 5);
 		loginPage = new LoginPage(driver);
 		loginPage.setUsername("cctestuser11@yopmail.com");
+		Reporter.log("Username: cctestuser11@yopmail.com");
 		loginPage.setPassword("CCTest@2021");
-		Dashboard dashboard=loginPage.clickLoginButton();
+		Reporter.log("Password: CCTest@2021");
+		dashboard=loginPage.clickLoginButton();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(dashboardText));
 		}
 		else
+		{
+			Reporter.log("We are already logged in the application");
 			dashboard=new Dashboard(driver);
+		}
 		Reporter.setCurrentTestResult(result);
-		Reporter.log("BeforeMethod");
+		Reporter.log("BeforeMethod ended");
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -77,7 +89,7 @@ public class BaseTest {
 		driver.quit();
 
 		Reporter.setCurrentTestResult(result);
-		Reporter.log("AfterMethod");
+		Reporter.log("AfterMethod ended");
 	}
 
 	private ChromeOptions getChromeHeadlessOptions() {
@@ -98,7 +110,14 @@ public class BaseTest {
 		// options.addArguments("headless");
 		return options;
 	}
-	
+	private void sleep(long m) {
+		try {
+			Thread.sleep(m);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
 
 

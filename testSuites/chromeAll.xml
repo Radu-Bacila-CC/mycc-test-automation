@@ -8,7 +8,8 @@
         <parameter name="user" value="tomsmith"></parameter>
         <parameter name="password" value="SuperSecretPassword!"></parameter>
         <classes>
-            <class name="tests.WorkflowTests"> </class>
+			<class name="tests.WorkLogsTests"> </class>
+            <class name="tests.ProfileTests"> </class>
         </classes>
     </test>
 </suite>

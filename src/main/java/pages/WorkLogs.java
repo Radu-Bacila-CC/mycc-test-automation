@@ -60,7 +60,6 @@ public class WorkLogs {
 	public void selectTime(String hours, String minutes)
 	{
 		driver.findElement(timePickerButton).click();
-		
 		By hoursBy=By.xpath("//li[@data-key=\""+hours+"\"]");
 		driver.findElement(hoursBy).click();
 		driver.findElement(timePickerButton).click();

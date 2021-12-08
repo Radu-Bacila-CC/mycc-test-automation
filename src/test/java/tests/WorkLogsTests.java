@@ -17,7 +17,7 @@ import static utils.Timers.setTimestamp;
 @Slf4j
 public class WorkLogsTests extends BaseTest{
 	
-	@Test
+	@Test()
 	public void addWorkFlowFromWorkLogPageTest()
 	{
 		setTimestamp("addWorkFlowFromWorkLogPageTest");
@@ -54,7 +54,19 @@ public class WorkLogsTests extends BaseTest{
 	public void addWorkFlowFromDashboardTest()
 	{
 		setTimestamp("addWorkFlowFromDashboardTest");
-		
+		dashboard.clickLogTimeButton();
+		sleep(2000);
+		Reporter.log("Clicked the Log Time button from the Dashboard page");
+		dashboard.selectProject("My CC Test Project");
+		Reporter.log("Selected project: My CC Test Project");
+		dashboard.selectTask("Development Back End Test");
+		Reporter.log("Selected task: Development Back End Test");
+		dashboard.selectTime("01", "00");
+		Reporter.log("Time was set to 01:00");
+		dashboard.addComment("This is a test comment and was added by an automated test");
+		Reporter.log("Added the test comment");
+		assertTrue(dashboard.clickSaveLogButton(),"Work Log was not saved successfully");
+		Reporter.log("Work log saved!");
 		
 		//Report duration
         Reporter.log("Test duration: " + getDurationInMillisFrom("addWorkFlowFromDashboardTest") + " ms");
@@ -66,6 +78,18 @@ public class WorkLogsTests extends BaseTest{
         long maxDuration = 20000L;
         
         assertTrue(maxDuration >= getDurationInMillisFrom("addWorkFlowFromDashboardTest"));
+	}
+	
+	public static void sleep(int ms)
+	{
+	    try
+	    {
+	        Thread.sleep(ms);
+	    }
+	    catch(InterruptedException ex)
+	    {
+	        Thread.currentThread().interrupt();
+	    }
 	}
 
 }

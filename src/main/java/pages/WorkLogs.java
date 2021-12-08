@@ -1,35 +1,30 @@
 package pages;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import ch.qos.logback.core.joran.action.Action;
 
 public class WorkLogs {
 	
 	private WebDriver driver;
-	private WebDriverWait wait;
 	private By addLogButton=By.xpath("//div[@id='kt_content']//div[@class='card card-custom']/div[@class='container']/div[1]/div[2]/button[@type='button']");
 	private By projectDropDown=By.xpath("/html//select[@id='project-input']");
 	private By taskDropDown=By.xpath("/html//select[@id='task-input']");
 	
 	private By datePickerButton=By.xpath("//*[@id=\"created-at-datepicker\"]");
-	private By datePicker=By.xpath("//div[@id='created-at-datepicker__dialog_']/div/div[@role='group']/div[@role='application']");
 	
-	private By timePickerButton=By.xpath("/html/body/div[2]/div[1]/div/div/div/form/div[2]/div[2]/fieldset/div/span/input");
-	private By timePickerHours=By.xpath("/html/body/div[2]/div[1]/div/div/div/form/div[2]/div[2]/fieldset/div/span/div[3]/div/ul[1]");
-	private By timePickerMinutes=By.xpath("/html/body/div[2]/div[1]/div/div/div/form/div[2]/div[2]/fieldset/div/span/div[3]/div/ul[2]");
+	private By timePickerButton=By.xpath("//span[@class=\"vue__time-picker time-picker\"]");
 	
-	private By time=By.xpath("//*[@id='__BVID__214']/div/span/div[3]/div");
 	private By commentTextBox=By.xpath("/html//textarea[@id='comments-minutes-input']");
+	
+	private By saveLogButton=By.xpath("//*[@id=\"logWorkModal___BV_modal_footer_\"]/div/div/button");
+	
+	private By statusMessage=By.xpath("//div[@role=\"status\"]");
 	
 	public WorkLogs(WebDriver driver)
 	{
@@ -59,33 +54,22 @@ public class WorkLogs {
 	public void selectDate(String date)
 	{
 		driver.findElement(datePickerButton).click();
-		sleep(2000);
-
-		/*
-		wait.until(ExpectedConditions.visibilityOfElementLocated(datePicker));
-		sleep(2000);
-		WebElement dateWidget=driver.findElement(datePicker);
-		sleep(2000);
-		List<WebElement> columns=dateWidget.findElements(By.tagName("td"));
-		for (WebElement cell:columns)
-			if (cell.getText().equals(date))
-			{
-				cell.findElement(By.linkText(date)).click();
-				break;
-			}
-		sleep(2000);*/
+		driver.findElement(By.xpath("//div[@data-date=\""+date+"\"]")).click();
 	}
 	
-	public void selectTime()
+	public void selectTime(String hours, String minutes)
 	{
-		/*Select selectHours=new Select(driver.findElement(timePickerHours));
-		selectHours.selectByValue("12");
-		sleep(2000);
-		Select selectMinutes=new Select(driver.findElement(timePickerMinutes));
-		selectMinutes.selectByValue("30");
-		sleep(2000);*/
+		driver.findElement(timePickerButton).click();
 		
-		
+		By hoursBy=By.xpath("//li[@data-key=\""+hours+"\"]");
+		driver.findElement(hoursBy).click();
+		driver.findElement(timePickerButton).click();
+		By minutesBy;
+		if(minutes.equals("00"))
+			 minutesBy=By.xpath("//ul[2]//li[@data-key=\"00\"]");
+		else
+			 minutesBy=By.xpath("//ul[2]//li[@data-key=\"30\"]");
+		driver.findElement(minutesBy).click();
 	}
 	
 	public void addComment(String comment)
@@ -93,11 +77,13 @@ public class WorkLogs {
 		driver.findElement(commentTextBox).sendKeys(comment);
 	}
 	
-	 private void sleep(long m) {
-			try {
-				Thread.sleep(m);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+	public boolean clickSaveLogButton()
+	{
+		WebDriverWait wait=new WebDriverWait(driver, 5);
+		driver.findElement(saveLogButton).click();
+		driver.switchTo().activeElement();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(statusMessage));
+		return driver.findElement(statusMessage).isDisplayed();
+	}
+	
 }

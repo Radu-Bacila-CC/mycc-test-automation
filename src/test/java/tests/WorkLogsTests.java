@@ -18,9 +18,9 @@ import static utils.Timers.setTimestamp;
 public class WorkLogsTests extends BaseTest{
 	
 	@Test
-	public void addWorkFlowFromDashboardTest()
+	public void addWorkFlowFromWorkLogPageTest()
 	{
-		setTimestamp("addWorkFlowFromDashboardTest");
+		setTimestamp("addWorkFlowFromWorkLogPageTest");
 		Reporter.log("Navigating to My Work Logs Page");
 		WorkLogs workLogs=dashboard.navigateToWorkLogsPage();
 		workLogs.clickAddLogButton();
@@ -29,9 +29,32 @@ public class WorkLogsTests extends BaseTest{
 		Reporter.log("Selected project: My CC Test Project");
 		workLogs.selectTask("Development Back End Test");
 		Reporter.log("Selected task: Development Back End Test");
-		workLogs.addComment("Test comment added and must be at least 20 characters");
+		workLogs.selectDate("2021-12-12");
+		Reporter.log("Selected date: 2021-12-12");
+		workLogs.selectTime("04","30");
+		Reporter.log("Time was set to 04:30");
+		workLogs.addComment("This is a test comment and was added by an automated test");
 		Reporter.log("Added the test comment");
-		//workLogs.selectTime();
+		assertTrue(workLogs.clickSaveLogButton(),"Work Log was not saved successfully");
+		Reporter.log("Work log saved!");
+		
+		//Report duration
+        Reporter.log("Test duration: " + getDurationInMillisFrom("addWorkFlowFromWorkLogPageTest") + " ms");
+        
+        
+        //Log duration
+        log.debug(Long.toString(getDurationInMillisFrom("addWorkFlowFromWorkLogPageTest")));
+        System.out.println(getDurationInMillisFrom("addWorkFlowFromWorkLogPageTest"));
+        long maxDuration = 20000L;
+        
+        assertTrue(maxDuration >= getDurationInMillisFrom("addWorkFlowFromWorkLogPageTest"));
+	}
+	
+	@Test
+	public void addWorkFlowFromDashboardTest()
+	{
+		setTimestamp("addWorkFlowFromDashboardTest");
+		
 		
 		//Report duration
         Reporter.log("Test duration: " + getDurationInMillisFrom("addWorkFlowFromDashboardTest") + " ms");
@@ -44,13 +67,5 @@ public class WorkLogsTests extends BaseTest{
         
         assertTrue(maxDuration >= getDurationInMillisFrom("addWorkFlowFromDashboardTest"));
 	}
-	
-	 private void sleep(long m) {
-			try {
-				Thread.sleep(m);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 
 }

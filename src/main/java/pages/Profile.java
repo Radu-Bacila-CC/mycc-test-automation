@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class Profile {
 
 	private WebDriver driver;
-	private WebDriverWait wait;
 	
 	private By addNewContactButton=By.xpath("//div[@id='kt_content']//div[@class='container pt-0']/div/div[2]/div/div[@class='card card-custom']/div[2]/div[1]/button[@type='button']");
 	
@@ -20,8 +19,7 @@ public class Profile {
 	private By relationshipSelect=By.xpath("/html//select[@id='relationship-input']");
 	private By saveChangesButton=By.xpath("//*[@id=\"contactDetailsModal___BV_modal_footer_\"]/div/div/button");
 	
-	//private String successMessage="Contact created successfully!";
-	private By successMessage=By.xpath("//div[@id='app-layout']//div[@name='snackbars']/div//div[@role='status']");
+	private By successMessage=By.xpath("//div[@role=\"status\"]");
 	public Profile(WebDriver driver)
 	{
 		this.driver=driver;
@@ -60,12 +58,13 @@ public class Profile {
 		selectRelation.selectByVisibleText(relationship);
 	}
 	
-	public void clickSaveChangesButton()
+	public boolean clickSaveChangesButton()
 	{
-		wait=new WebDriverWait(driver, 5);
+		WebDriverWait wait=new WebDriverWait(driver, 5);
 		driver.findElement(saveChangesButton).click();
 		driver.switchTo().activeElement();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(successMessage));
+		return driver.findElement(successMessage).isDisplayed();
 	}
 	
 	

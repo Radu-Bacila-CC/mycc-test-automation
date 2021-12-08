@@ -110,13 +110,6 @@ public class BaseTest {
 		// options.addArguments("headless");
 		return options;
 	}
-	private void sleep(long m) {
-		try {
-			Thread.sleep(m);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 }
 

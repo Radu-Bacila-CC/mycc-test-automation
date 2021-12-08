@@ -33,9 +33,8 @@ public class ProfileTests extends BaseTest{
 		Reporter.log("Set the Email to cctestuser11@yopmail.com");
 		profile.selectRelationship("Sibling");
 		Reporter.log("Set Relationship to Sibling");
-		profile.clickSaveChangesButton();
-		Reporter.log("Contact saved");
-		//assertTrue(profile.clickSaveChangesButton(),"Contact was not saved successfully");
+		assertTrue(profile.clickSaveChangesButton(),"Contact was not saved successfully");
+		Reporter.log("Contact saved!");
 		
 		//Report duration
         Reporter.log("Test duration: " + getDurationInMillisFrom("addFirstContactTest") + " ms");
@@ -46,14 +45,6 @@ public class ProfileTests extends BaseTest{
         long maxDuration = 20000L;
         
         assertTrue(maxDuration >= getDurationInMillisFrom("addFirstContactTest"));
-	}
-	
-	private void sleep(long m) {
-		try {
-			Thread.sleep(m);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

@@ -3,6 +3,7 @@ package pages;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -15,6 +16,7 @@ public class WorkLogs {
 	private By addLogButton=By.xpath("//div[@id='kt_content']//div[@class='card card-custom']/div[@class='container']/div[1]/div[2]/button[@type='button']");
 	private By projectDropDown=By.xpath("/html//select[@id='project-input']");
 	private By taskDropDown=By.xpath("/html//select[@id='task-input']");
+	private By duplicateButton=By.xpath("(//button[@class=\"btn btn-icon btn-circle mr-3 btn-secondary btn-sm\"])[2]");
 	
 	private By datePickerButton=By.xpath("//*[@id=\"created-at-datepicker\"]");
 	
@@ -62,13 +64,14 @@ public class WorkLogs {
 		driver.findElement(timePickerButton).click();
 		By hoursBy=By.xpath("//li[@data-key=\""+hours+"\"]");
 		driver.findElement(hoursBy).click();
-		driver.findElement(timePickerButton).click();
 		By minutesBy;
 		if(minutes.equals("00"))
 			 minutesBy=By.xpath("//ul[2]//li[@data-key=\"00\"]");
 		else
 			 minutesBy=By.xpath("//ul[2]//li[@data-key=\"30\"]");
-		driver.findElement(minutesBy).click();
+		driver.findElement(timePickerButton).click();
+		//driver.findElement(minutesBy).click();
+		
 	}
 	
 	public void addComment(String comment)
@@ -85,4 +88,22 @@ public class WorkLogs {
 		return driver.findElement(statusMessage).isDisplayed();
 	}
 	
+	public void clickDuplicateButton()
+	{
+		driver.findElement(duplicateButton).click();
+		driver.switchTo().activeElement();
+	}
+	
+	
+	public static void sleep(int ms)
+	{
+	    try
+	    {
+	        Thread.sleep(ms);
+	    }
+	    catch(InterruptedException ex)
+	    {
+	        Thread.currentThread().interrupt();
+	    }
+	}
 }

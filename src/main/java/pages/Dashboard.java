@@ -60,6 +60,7 @@ public class Dashboard {
     	
     	JavascriptExecutor jse=(JavascriptExecutor) driver;
     	jse.executeScript("arguments[0].click()", logTimeButtonElement);
+    	driver.switchTo().activeElement();
     }
     
     public void selectProject(String projectName)

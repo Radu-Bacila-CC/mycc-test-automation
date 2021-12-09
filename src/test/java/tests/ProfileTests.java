@@ -8,12 +8,12 @@ import org.openqa.selenium.By;
 import org.testng.Reporter;
 import org.testng.annotations.Test;
 
-import base.BaseTest;
+import base.Base;
 import lombok.extern.slf4j.Slf4j;
 import pages.Profile;
 
 @Slf4j
-public class ProfileTests extends BaseTest{
+public class ProfileTests extends Base{
 	
 	@Test
 	public void addFirstContactTest()

@@ -5,8 +5,9 @@
         <parameter name="url" value="https://mycc-staging.n13.ro/dashboard"></parameter>
         <parameter name="driverPath" value="resources//chromedriver.exe"></parameter>
         <parameter name="browser" value="Chrome"></parameter>
-        <parameter name="user" value="tomsmith"></parameter>
-        <parameter name="password" value="SuperSecretPassword!"></parameter>
+        <parameter name="user" value="cctestuser11@yopmail.com"></parameter>
+        <parameter name="password" value="CCTest@2021"></parameter>
+        <parameter name="implicitWait" value="4"></parameter>
         <classes>
 			<class name="tests.WorkLogsTests"> </class>
             <class name="tests.ProfileTests"> </class>

@@ -23,7 +23,6 @@ public class Profile {
 	public Profile(WebDriver driver)
 	{
 		this.driver=driver;
-		sleep(2000);
 	}
 	
 	public void clickAddNewContact()
@@ -67,12 +66,4 @@ public class Profile {
 		return driver.findElement(successMessage).isDisplayed();
 	}
 	
-	
-	private void sleep(long m) {
-		try {
-			Thread.sleep(m);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }
